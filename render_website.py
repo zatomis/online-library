@@ -3,7 +3,7 @@ import os
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
 from livereload import Server
-
+from more_itertools import chunked
 import argparse
 from urllib.parse import urljoin
 import json
@@ -47,7 +47,7 @@ def on_reload():
     for item_book_path in books:
         item_book_path['img_path'] = urljoin(general_folder+'/', str(item_book_path['img_path']))
 
-    rendered_page = template.render(books=books)
+    rendered_page = template.render(books=chunked(books, 2))
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     logger = logging.getLogger(__name__)
     base_dir = path.dirname(path.abspath(__file__))
-
+    on_reload()
     server = Server()
     server.watch('template.html', on_reload)
     server.serve(root='.')
