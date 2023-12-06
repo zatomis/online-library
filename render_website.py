@@ -2,6 +2,8 @@ import logging
 import os
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
+from livereload import Server
+
 import argparse
 from urllib.parse import urljoin
 import json
@@ -29,14 +31,7 @@ def find_json_files(directory):
     return json_files
 
 
-if __name__ == '__main__':
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(filename)s:%(lineno)d - %(levelname)-8s - %(message)s'
-    )
-
-    logger = logging.getLogger(__name__)
-    base_dir = path.dirname(path.abspath(__file__))
+def on_reload():
     parsed_arguments = parse_arguments()
     general_folder = parsed_arguments.dest_folder
     env = Environment(
@@ -55,3 +50,17 @@ if __name__ == '__main__':
     rendered_page = template.render(books=books)
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
+
+
+if __name__ == '__main__':
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(filename)s:%(lineno)d - %(levelname)-8s - %(message)s'
+    )
+
+    logger = logging.getLogger(__name__)
+    base_dir = path.dirname(path.abspath(__file__))
+
+    server = Server()
+    server.watch('template.html', on_reload)
+    server.serve(root='.')
