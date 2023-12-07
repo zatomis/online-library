@@ -1,5 +1,7 @@
 import logging
 import os
+import pathlib
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
 from livereload import Server
@@ -8,6 +10,7 @@ import argparse
 from urllib.parse import urljoin
 import json
 
+INDEX_PAGES_FOLDER_NAME = 'pages'
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -45,13 +48,20 @@ def on_reload():
     books = json.loads(book_details)
 
     for item_path in books:
-        item_path['img_path'] = urljoin(general_folder+'/', str(item_path['img_path']))
-        item_path['book_path'] = urljoin(general_folder+'/', str(item_path['book_path']))
+        item_path['img_path'] = urljoin(general_folder + os.sep, str(item_path['img_path']))
+        # item_path['img_path'] = urljoin(INDEX_PAGES_FOLDER_NAME + os.sep, general_folder + os.sep, str(item_path['img_path']))
+        item_path['book_path'] = urljoin(general_folder + os.sep, str(item_path['book_path']))
+        # item_path['book_path'] = urljoin(INDEX_PAGES_FOLDER_NAME + os.sep, general_folder + os.sep, str(item_path['book_path']))
         logging.info(item_path['book_path'])
 
-    rendered_page = template.render(books=chunked(books, 2))
-    with open('index.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
+
+    os.makedirs(os.path.join(os.getcwd(), INDEX_PAGES_FOLDER_NAME), mode=0o777, exist_ok=True)
+    books_by_group = list(chunked(books, 10))
+    for i, books in enumerate(books_by_group, 1):
+        rendered_page = template.render(books=chunked(books, 2))
+        index_file_name = os.path.join(INDEX_PAGES_FOLDER_NAME, f'index{i}.html')
+        with open(index_file_name, 'w', encoding="utf8") as file:
+            file.write(rendered_page)
 
 
 if __name__ == '__main__':
