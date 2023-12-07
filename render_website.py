@@ -44,8 +44,10 @@ def on_reload():
         book_details = json_file.read()
     books = json.loads(book_details)
 
-    for item_book_path in books:
-        item_book_path['img_path'] = urljoin(general_folder+'/', str(item_book_path['img_path']))
+    for item_path in books:
+        item_path['img_path'] = urljoin(general_folder+'/', str(item_path['img_path']))
+        item_path['book_path'] = urljoin(general_folder+'/', str(item_path['book_path']))
+        logging.info(item_path['book_path'])
 
     rendered_page = template.render(books=chunked(books, 2))
     with open('index.html', 'w', encoding="utf8") as file:
