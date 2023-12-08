@@ -1,7 +1,6 @@
 import logging
+import glob
 import os
-import pathlib
-
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
 from livereload import Server
@@ -11,6 +10,7 @@ from urllib.parse import urljoin
 import json
 
 INDEX_PAGES_FOLDER_NAME = 'pages'
+BOOKS_ON_THE_PAGE = 10
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -33,6 +33,10 @@ def find_json_files(directory):
             json_files.append(file)
     return json_files
 
+def remove_html():
+    html = glob.glob(f'{INDEX_PAGES_FOLDER_NAME}/*.html', recursive=False)
+    for file_name in html:
+        os.remove(file_name)
 
 def on_reload():
     parsed_arguments = parse_arguments()
@@ -49,17 +53,13 @@ def on_reload():
 
     for item_path in books:
         item_path['img_path'] = urljoin(general_folder + os.sep, str(item_path['img_path']))
-        # item_path['img_path'] = urljoin(INDEX_PAGES_FOLDER_NAME + os.sep, general_folder + os.sep, str(item_path['img_path']))
         item_path['book_path'] = urljoin(general_folder + os.sep, str(item_path['book_path']))
-        # item_path['book_path'] = urljoin(INDEX_PAGES_FOLDER_NAME + os.sep, general_folder + os.sep, str(item_path['book_path']))
-        logging.info(item_path['book_path'])
-
 
     os.makedirs(os.path.join(os.getcwd(), INDEX_PAGES_FOLDER_NAME), mode=0o777, exist_ok=True)
-    books_by_group = list(chunked(books, 10))
-    for i, books in enumerate(books_by_group, 1):
-        rendered_page = template.render(books=chunked(books, 2))
-        index_file_name = os.path.join(INDEX_PAGES_FOLDER_NAME, f'index{i}.html')
+    books_by_group = list(chunked(books, BOOKS_ON_THE_PAGE))
+    for num_page, books in enumerate(books_by_group, 1):
+        rendered_page = template.render(books=chunked(books, 2), number_pages=len(books_by_group), current_page=num_page)
+        index_file_name = os.path.join(INDEX_PAGES_FOLDER_NAME, f'index{num_page}.html')
         with open(index_file_name, 'w', encoding="utf8") as file:
             file.write(rendered_page)
 
@@ -72,6 +72,7 @@ if __name__ == '__main__':
 
     logger = logging.getLogger(__name__)
     base_dir = path.dirname(path.abspath(__file__))
+    remove_html()
     on_reload()
     server = Server()
     server.watch('template.html', on_reload)

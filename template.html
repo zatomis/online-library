@@ -105,10 +105,43 @@
     -->
       <div class="card text-center">
         <div class="card-body">
-          <H1>Подборка книг c сайта www.tululu.org</H1>
+          <H1>Подборка книг c сайта <a href='https://www.tululu.org/'>www.tululu.org</a></H1>
         </div>
       </div>
 
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          {% if current_page==1 %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#">⛔</a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href='index{{current_page-1}}.html'>Предыдущая</a>
+            </li>
+          {% endif %}
+          {% for page in range(0, number_pages) %}
+            {% if page+1==current_page %}
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">{{current_page}}
+                  <span class="sr-only">(current)</span>
+                </span>
+              </li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href='index{{page+1}}.html'>{{page+1}}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if current_page==number_pages %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#">⛔</a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href='index{{current_page+1}}.html'>Следующая</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
 <!--      <div class="card mb-3" style="max-width: max-heigh;">-->
       <div class="card mb-3">
         <div class="container-fluid">
