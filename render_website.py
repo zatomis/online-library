@@ -1,6 +1,7 @@
 import logging
 import glob
 import os
+from environs import Env
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
 from livereload import Server
@@ -9,12 +10,15 @@ import argparse
 from urllib.parse import urljoin
 import json
 
-INDEX_PAGES_FOLDER_NAME = 'pages'
-BOOKS_ON_THE_PAGE = 10
+env = Env()
+env.read_env()
+
+INDEX_PAGES_FOLDER_NAME = env('INDEX_PAGES_FOLDER_NAME')
+BOOKS_ON_THE_PAGE = env.int('BOOKS_ON_THE_PAGE')
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Генератор страницы сайта библиотеки www.tululu.org"
+        description="Генератор страниц сайта из библиотеки www.tululu.org"
     )
     parser.add_argument(
         '--dest_folder',
@@ -69,6 +73,7 @@ if __name__ == '__main__':
         level=logging.INFO,
         format='%(filename)s:%(lineno)d - %(levelname)-8s - %(message)s'
     )
+
 
     logger = logging.getLogger(__name__)
     base_dir = path.dirname(path.abspath(__file__))
