@@ -1,7 +1,6 @@
 import logging
 import glob
 import os
-from environs import Env
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
 from livereload import Server
@@ -10,11 +9,10 @@ import argparse
 from urllib.parse import urljoin
 import json
 
-env = Env()
-env.read_env()
 
-INDEX_PAGES_FOLDER_NAME = env('INDEX_PAGES_FOLDER_NAME')
-BOOKS_ON_THE_PAGE = env.int('BOOKS_ON_THE_PAGE')
+INDEX_PAGES_FOLDER_NAME = 'SiteLibrary'
+BOOKS_ON_THE_PAGE = 9
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -37,10 +35,12 @@ def find_json_files(directory):
             json_files.append(file)
     return json_files
 
+
 def remove_html():
     html = glob.glob(f'{INDEX_PAGES_FOLDER_NAME}/*.html', recursive=False)
     for file_name in html:
         os.remove(file_name)
+
 
 def on_reload():
     parsed_arguments = parse_arguments()
@@ -73,7 +73,6 @@ if __name__ == '__main__':
         level=logging.INFO,
         format='%(filename)s:%(lineno)d - %(levelname)-8s - %(message)s'
     )
-
 
     logger = logging.getLogger(__name__)
     base_dir = path.dirname(path.abspath(__file__))
