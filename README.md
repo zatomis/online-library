@@ -27,7 +27,7 @@ pip install -r requirements.txt
 $ python3 render_website.py --dest_folder General 
 ```
 
-После запуска и работы скрипта, в том же каталоге что и скрипт будет создана папка pages, в которой будут файлы index1.html ... indexN.html
+После запуска и работы скрипта, в том же каталоге что и скрипт будет создана папка SiteLibrary, в которой будут файлы index1.html ... indexN.html
 Проверить правильность создания страниц можно будет открыть в любом браузере файл index1.html
 ![img_1.png](img_1.png)
 

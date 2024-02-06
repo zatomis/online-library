@@ -11,7 +11,7 @@ import json
 
 
 INDEX_PAGES_FOLDER_NAME = 'SiteLibrary'
-BOOKS_ON_THE_PAGE = 9
+BOOKS_ON_THE_PAGE = 8
 
 
 def parse_arguments():
