@@ -1,14 +1,14 @@
-import logging
+import argparse
 import glob
+import json
+import logging
 import os
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from os import path
+from urllib.parse import urljoin
+
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
-import argparse
-from urllib.parse import urljoin
-import json
-
 
 INDEX_PAGES_FOLDER_NAME = 'SiteLibrary'
 BOOKS_ON_THE_PAGE = 8
@@ -52,8 +52,7 @@ def on_reload():
     template = env.get_template('template.html')
     data_structures_file = find_json_files(general_folder)[0]
     with open(os.path.join(general_folder, data_structures_file), "r") as json_file:
-        book_details = json_file.read()
-    books = json.loads(book_details)
+        books = json.load(json_file)
 
     for item_path in books:
         item_path['img_path'] = urljoin(general_folder + os.sep, str(item_path['img_path']))
