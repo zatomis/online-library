@@ -7,103 +7,17 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../static/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <title>Подборка книг</title>
-    <style type="text/css">
-      :root {
-          --text: #2B3044;
-          --line: #BBC1E1;
-          --line-active: #275EFE;
-      }
-
-      p {
-          font-size: 18px;
-          margin: 0;
-          color: var(--text);
-          a {
-              display: inline-block;
-              position: relative;
-              text-decoration: none;
-              color: inherit;
-              margin: 0 var(--spacing, 0px);
-              transition: margin .25s;
-              svg {
-                  width: 76px;
-                  height: 40px;
-                  position: absolute;
-                  left: 50%;
-                  bottom: 0;
-                  transform: translate(-50%, 7px) translateZ(0);
-                  fill: none;
-                  stroke: var(--stroke, var(--line));
-                  stroke-linecap: round;
-                  stroke-width: 2px;
-                  stroke-dasharray: var(--offset, 69px) 278px;
-                  stroke-dashoffset: 361px;
-                  transition: stroke .25s ease var(--stroke-delay, 0s), stroke-dasharray .35s;
-              }
-              &:hover {
-                  --spacing: 4px;
-                  --stroke: var(--line-active);
-                  --stroke-delay: .1s;
-                  --offset: 180px;
-              }
-          }
-      }
-
-      html {
-          box-sizing: border-box;
-          -webkit-font-smoothing: antialiased;
-      }
-
-      * {
-          box-sizing: inherit;
-          &:before,
-          &:after {
-              box-sizing: inherit;
-          }
-      }
-
-      // Center & dribbble
-      body {
-          min-height: 100vh;
-          display: flex;
-          font-family: 'Inter', Arial;
-          justify-content: center;
-          align-items: center;
-          background: #F6F8FF;
-          .dribbble {
-              position: fixed;
-              display: block;
-              right: 20px;
-              bottom: 20px;
-              img {
-                  display: block;
-                  height: 28px;
-              }
-          }
-          .twitter {
-              position: fixed;
-              display: block;
-              right: 64px;
-              bottom: 14px;
-              svg {
-                  width: 32px;
-                  height: 32px;
-                  fill: #1da1f2;
-              }
-          }
-      }
-    </style>
   </head>
   <body>
-    <script src="../static/jquery-3.5.1.slim.min.js"</script>
-    <script src="../static/bootstrap.bundle.min.js"</script>
-      <span class="border border-dark rounded-lg">
+    <script src="../static/jquery-3.5.1.slim.min.js"></script>
+    <script src="../static/bootstrap.bundle.min.js"></script>
+      <div class="border border-dark rounded-lg">
         <div class="card text-center">
           <div class="card-body">
             <H1>Подборка книг c сайта <a href='https://www.tululu.org/' class="badge badge-primary">www.tululu.org</a></H1>
           </div>
         </div>
-      </span>
+      </div>
       <nav aria-label="Page navigation example">
         <ul class="pagination pagination-lg justify-content-center mt-3">
           {% if current_page==1 %}
@@ -118,9 +32,9 @@
           {% for page in range(0, number_pages) %}
             {% if page+1==current_page %}
               <li class="page-item active" aria-current="page">
-                <span class="page-link">{{current_page}}
+                <div class="page-link">{{current_page}}
                   <span class="sr-only">(current)</span>
-                </span>
+                </div>
               </li>
             {% else %}
               <li class="page-item"><a class="page-link" href='index{{page+1}}.html'>{{page+1}}</a></li>
@@ -144,9 +58,9 @@
           {% for book_column in books %}
             {% for book in book_column %}
             <div class="col">
-              <span class="border border-info">
+              <div class="border border-info">
                 <div class="col-md-4 mx-auto">
-                  <p class="card-text top-name center-block"><img src='../{{book.img_path|urlencode}}' class="card-img" class="rounded-left" alt='{{book.genre}}'></p>
+                  <p class="card-text top-name center-block"><img src='../{{book.img_path|urlencode}}' class="card-img rounded-left" alt='{{book.genre}}'></p>
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
@@ -155,13 +69,11 @@
                         <p></p>
                       <p class="card-text" ><span class="badge badge-secondary">{{book.genre}}</span></p>
                         <p></p>
-                      <p><a href='../{{book.book_path|urlencode}}' target="_blank">Читать <svg viewBox="0 0 70 36">
-                        <path d="M6.9739 30.8153H63.0244C65.5269 30.8152 75.5358 -3.68471 35.4998 2.81531C-16.1598 11.2025 0.894099 33.9766 26.9922 34.3153C104.062 35.3153 54.5169 -6.68469 23.489 9.31527"/></svg></a>
-                        книгу</p>
+                      <p><a href='../{{book.book_path|urlencode}}' target="_blank">Читать </a> книгу</p>
                         <p></p>
                   </div>
                 </div>
-              </span>
+              </div>
             </div>
             {% endfor %}
             <div class="w-100"></div>
@@ -170,5 +82,4 @@
         </div>
       </div>
   </body>
-  
 </html>
