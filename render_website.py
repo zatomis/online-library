@@ -20,7 +20,7 @@ def parse_arguments():
     )
     parser.add_argument(
         '--dest_folder',
-        default='General',
+        default='media',
         type=str,
         help='Путь к каталогу с данными для генерации',
     )
