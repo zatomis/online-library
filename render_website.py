@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
 
-INDEX_PAGES_FOLDER_NAME = 'SiteLibrary'
+INDEX_PAGES_FOLDER_NAME = 'pages'
 BOOKS_ON_THE_PAGE = 8
 
 
