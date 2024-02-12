@@ -29,17 +29,17 @@
               <a class="page-link" href='index{{current_page-1}}.html'>Предыдущая</a>
             </li>
           {% endif %}
-          {% for page in range(0, number_pages) %}
-            {% if page+1==current_page %}
-              <li class="page-item active" aria-current="page">
-                <div class="page-link">{{current_page}}
-                  <span class="sr-only">(current)</span>
-                </div>
-              </li>
-            {% else %}
-              <li class="page-item"><a class="page-link" href='index{{page+1}}.html'>{{page+1}}</a></li>
-            {% endif %}
-          {% endfor %}
+            {% for page in range(0, number_pages) %}
+              {% if page+1==current_page %}
+                <li class="page-item active" aria-current="page">
+                  <div class="page-link">{{current_page}}
+                    <span class="sr-only">(current)</span>
+                  </div>
+                </li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href='index{{page+1}}.html'>{{page+1}}</a></li>
+              {% endif %}
+            {% endfor %}
           {% if current_page==number_pages %}
             <li class="page-item disabled">
               <a class="page-link" href="#">⛔</a>
@@ -51,33 +51,32 @@
           {% endif %}
         </ul>
       </nav>
-<!--      <div class="card mb-3" style="max-width: max-heigh;">-->
       <div class="card mb-3">
         <div class="container-fluid">
           <div class="row align-items-center">
-          {% for book_column in books %}
-            {% for book in book_column %}
-            <div class="col">
-              <div class="border border-info">
-                <div class="col-md-4 mx-auto">
-                  <p class="card-text top-name center-block"><img src='../{{book.img_path|urlencode}}' class="card-img rounded-left" alt='{{book.genre}}'></p>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h2 class="card-header"><b>{{book.title}}</b></h2>
-                      <p class="card-text">{{book.author}}</p>
-                        <p></p>
-                      <p class="card-text" ><span class="badge badge-secondary">{{book.genre}}</span></p>
-                        <p></p>
-                      <p><a href='../{{book.book_path|urlencode}}' target="_blank">Читать </a> книгу</p>
-                        <p></p>
+            {% for book_column in books %}
+              {% for book in book_column %}
+                <div class="col">
+                  <div class="border border-info">
+                    <div class="col-md-4 mx-auto">
+                      <p class="card-text top-name center-block"><img src='../{{book.img_path|urlencode}}' class="card-img rounded-left" alt='{{book.genre}}'></p>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h2 class="card-header"><b>{{book.title}}</b></h2>
+                          <p class="card-text">{{book.author}}</p>
+                            <p></p>
+                          <p class="card-text" ><span class="badge badge-secondary">{{book.genre}}</span></p>
+                            <p></p>
+                          <p><a href='../{{book.book_path|urlencode}}' target="_blank">Читать </a> книгу</p>
+                            <p></p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              {% endfor %}
+                <div class="w-100"></div>
             {% endfor %}
-            <div class="w-100"></div>
-          {% endfor %}
           </div>
         </div>
       </div>
